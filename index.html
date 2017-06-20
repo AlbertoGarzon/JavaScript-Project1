@@ -1,0 +1,33 @@
+<!Doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Ajax text</title>
+    </head>
+    <body>
+        <div id="main">
+            This is the original text when the page first loadds.
+        </div>
+        <button id="ajax-button" type="button">Update Content with Ajax</button>
+        <script>
+            function replaceText(){
+                var target = document.getElementById("main");
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'sample.php',true);
+                xhr.onreadystatechange = function () {
+                    if(xhr.readyState == 2){
+                        target.innerHTML = "Loading...";
+                    }
+                    if(xhr.readyState == 4 && xhr.status == 200){
+                        var json = JSON.parse(xhr.responseText)
+                        target.innerHTML = json.long;
+                    }
+                }
+                xhr.send();
+            }
+
+            var button = document.getElementById("ajax-button");
+            button.addEventListener("click",replaceText);
+        </script>
+    </body>
+</html>
